@@ -1,3 +1,13 @@
+/*
+Url=  https://api.exchangeratesapi.io/v1/latest
+      ? access_key = f8e15e207e4433db7c4a5b009a6fc9e7
+      & symbols = USD,EUR
+
+*/
+
+
+
+
 class temperature{
     Celsius;
     Fahrenheit;
@@ -74,6 +84,36 @@ function switchtemp(pageId) {
     var selectedPage = document.getElementById(pageId);
     selectedPage.style.display = 'block';
     
+    $.ajax({
+      url: 'http://api.exchangeratesapi.io/v1/latest?access_key=f8e15e207e4433db7c4a5b009a6fc9e7&symbols=USD,EUR',
+      dataType: 'jsonp',
+      success: function(json) {
+  
+        // exchange rate data is stored in json.rates
+        Usd_Rate = (json.rates.USD);
+        console.log("Current USD_Rate = " + Usd_Rate);
+  
+        if(pageId === "USDtoEUR"){
+          Usd_Rate = 1 / Usd_Rate;
+          var roundedResult = Usd_Rate.toFixed(4);
+          document.getElementById("currUSDRate").textContent =  "Current Rate: " + roundedResult;
+  
+        }
+        if(pageId === "EURtoUSD"){
+          Usd_Rate = Usd_Rate;
+          var roundedResult = Usd_Rate.toFixed(4);
+          document.getElementById("currEURRate").textContent =  "Current Rate: " + roundedResult;
+  
+        }
+  
+      
+      },
+      error: function(xhr, status, error) {
+        console.error('Request failed:', error);
+      }
+    });
+  
+    
   }
   
   
@@ -122,24 +162,71 @@ function KgtoLbresult(){
 
 // USD to EUR
 function USDtoEURresult(){
-    var USD = parseFloat(document.getElementById("USD").value);
 
-    var USDtoEURresult =  USD * 0.890671;
+
+  $.ajax({
+    url: 'http://api.exchangeratesapi.io/v1/latest?access_key=f8e15e207e4433db7c4a5b009a6fc9e7&symbols=USD,EUR',
+    dataType: 'jsonp',
+    success: function(json) {
+
+      // exchange rate data is stored in json.rates
+      Usd_Rate = (json.rates.USD);
+      console.log("Current USD_Rate = " + Usd_Rate);
+
+      var USD = parseFloat(document.getElementById("USD").value);
+
+    var USDtoEURresult =  USD / Usd_Rate;
     var roundedResult = USDtoEURresult.toFixed(2);
     document.getElementById("USDtoEURresult").textContent =  "€ " + roundedResult;
 
+    },
+    error: function(xhr, status, error) {
+      console.error('Request failed:', error);
+    }
+  });
+
+   
 
 }
 
 // EUR to USD
-function EURtoUSDresult(){
-    var EUR = parseFloat(document.getElementById("EUR").value);
 
+/*
+function EURtoUSDresult(){
+    
+  var EUR = parseFloat(document.getElementById("EUR").value);
+  
     var EURtoUSDresult =  EUR / 0.890671;
     var roundedResult = EURtoUSDresult.toFixed(2);
     document.getElementById("EURtoUSDresult").textContent = "$ " + roundedResult;
 
 
+}
+*/
+
+function EURtoUSDresult(){
+  
+  $.ajax({
+    url: 'http://api.exchangeratesapi.io/v1/latest?access_key=f8e15e207e4433db7c4a5b009a6fc9e7&symbols=USD,EUR',
+    dataType: 'jsonp',
+    success: function(json) {
+
+      // exchange rate data is stored in json.rates
+      Usd_Rate = (json.rates.USD);
+      console.log("USD_Rate = " + Usd_Rate);
+
+      var EUR = parseFloat(document.getElementById("EUR").value);
+  
+    var EURtoUSDresult =  EUR * Usd_Rate;
+    var roundedResult = EURtoUSDresult.toFixed(2);
+    document.getElementById("EURtoUSDresult").textContent = "$ " + roundedResult;
+
+    },
+    error: function(xhr, status, error) {
+      console.error('Request failed:', error);
+    }
+  });
+  
 }
 
 function showPageAndChangeColor(page, buttonClass) {
