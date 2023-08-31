@@ -26,6 +26,14 @@ h3{
     padding-top: 3%;
 
 }
+h5{ 
+    text-align:center;
+}
+footer{
+    display: flex;
+    margin-top: auto;
+    margin-bottom: 8px;
+}
 
 .Conversions{
     
