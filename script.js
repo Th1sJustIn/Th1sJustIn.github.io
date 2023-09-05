@@ -1,12 +1,3 @@
-/*
-Url=  https://api.exchangeratesapi.io/v1/latest
-      ? access_key = f8e15e207e4433db7c4a5b009a6fc9e7
-      & symbols = USD,EUR
-
-*/
-
-
-
 
 class temperature{
     Celsius;
@@ -85,23 +76,24 @@ function switchtemp(pageId) {
     selectedPage.style.display = 'block';
     
     $.ajax({
-      url: 'http://api.exchangeratesapi.io/v1/latest?access_key=f8e15e207e4433db7c4a5b009a6fc9e7&symbols=USD,EUR',
-      dataType: 'jsonp',
+      url: 'https://api.currencybeacon.com/v1/latest?api_key=ElgQtrutc8yMEaAOawV0eGtiEKteJDQd',
+      dataType: 'json',
       success: function(json) {
   
         // exchange rate data is stored in json.rates
-        Usd_Rate = (json.rates.USD);
-        console.log("Current USD_Rate = " + Usd_Rate);
+        EUR_Rate = (json.rates.EUR);
+        console.log("Current EUR_Rate = " + EUR_Rate);
   
         if(pageId === "USDtoEUR"){
-          Usd_Rate = 1 / Usd_Rate;
-          var roundedResult = Usd_Rate.toFixed(4);
+          EUR_Rate = EUR_Rate;
+          var roundedResult = EUR_Rate.toFixed(4);
           document.getElementById("currUSDRate").textContent =  "Current Rate: " + roundedResult;
   
         }
         if(pageId === "EURtoUSD"){
-          Usd_Rate = Usd_Rate;
-          var roundedResult = Usd_Rate.toFixed(4);
+          EUR_Rate = 1 / EUR_Rate;
+          
+          var roundedResult = EUR_Rate.toFixed(4);
           document.getElementById("currEURRate").textContent =  "Current Rate: " + roundedResult;
   
         }
@@ -165,17 +157,17 @@ function USDtoEURresult(){
 
 
   $.ajax({
-    url: 'http://api.exchangeratesapi.io/v1/latest?access_key=f8e15e207e4433db7c4a5b009a6fc9e7&symbols=USD,EUR',
-    dataType: 'jsonp',
+    url: 'https://api.currencybeacon.com/v1/latest?api_key=ElgQtrutc8yMEaAOawV0eGtiEKteJDQd',
+    dataType: 'json',
     success: function(json) {
 
       // exchange rate data is stored in json.rates
-      Usd_Rate = (json.rates.USD);
-      console.log("Current USD_Rate = " + Usd_Rate);
+      EUR_Rate = (json.rates.EUR);
+      console.log("Current EUR_Rate = " + EUR_Rate);
 
       var USD = parseFloat(document.getElementById("USD").value);
 
-    var USDtoEURresult =  USD / Usd_Rate;
+    var USDtoEURresult =  USD * EUR_Rate;
     var roundedResult = USDtoEURresult.toFixed(2);
     document.getElementById("USDtoEURresult").textContent =  "€ " + roundedResult;
 
@@ -207,17 +199,17 @@ function EURtoUSDresult(){
 function EURtoUSDresult(){
   
   $.ajax({
-    url: 'http://api.exchangeratesapi.io/v1/latest?access_key=f8e15e207e4433db7c4a5b009a6fc9e7&symbols=USD,EUR',
-    dataType: 'jsonp',
+    url: 'https://api.currencybeacon.com/v1/latest?api_key=ElgQtrutc8yMEaAOawV0eGtiEKteJDQd',
+    dataType: 'json',
     success: function(json) {
 
       // exchange rate data is stored in json.rates
-      Usd_Rate = (json.rates.USD);
-      console.log("USD_Rate = " + Usd_Rate);
+      EUR_Rate = (json.rates.EUR);
+      console.log("EUR_Rate = " + EUR_Rate);
 
       var EUR = parseFloat(document.getElementById("EUR").value);
   
-    var EURtoUSDresult =  EUR * Usd_Rate;
+    var EURtoUSDresult =  EUR / EUR_Rate;
     var roundedResult = EURtoUSDresult.toFixed(2);
     document.getElementById("EURtoUSDresult").textContent = "$ " + roundedResult;
 
